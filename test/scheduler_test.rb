@@ -550,8 +550,7 @@ context 'Resque::Scheduler' do
           Resque.redis.get('before_enqueue_job:enqueued') == 'true'
         end
 
-        def perform(*)
-        end
+        def perform(*); end
 
         private
 

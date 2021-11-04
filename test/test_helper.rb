@@ -25,8 +25,7 @@ def context(*args, &block)
       define_method("test_#{name.gsub(/\W/, '_')}", &block) if block
     end
 
-    def self.xtest(*_args)
-    end
+    def self.xtest(*_args); end
 
     def self.setup(&block)
       define_method(:setup, &block)
@@ -64,8 +63,7 @@ class FakeCustomJobClassEnqueueAt
 end
 
 class SomeJob
-  def self.perform(_, _)
-  end
+  def self.perform(_, _); end
 end
 
 class SomeIvarJob < SomeJob

@@ -8,6 +8,9 @@ AllCops:
   - bin/resque-scheduler
 #  TargetRubyVersion: 2.3
 
+Bundler/DuplicatedGem:
+  Enabled: false
+
 Documentation:
   Enabled: false
 
