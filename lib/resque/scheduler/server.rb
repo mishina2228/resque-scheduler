@@ -87,7 +87,7 @@ module Resque
         def delayed_jobs_klass
           begin
             klass = Resque::Scheduler::Util.constantize(params[:klass])
-            @args = JSON.load(CGI.unescape(params[:args]))
+            @args = JSON.parse(CGI.unescape(params[:args]))
             @timestamps = Resque.scheduled_at(klass, *@args)
           rescue
             @timestamps = []

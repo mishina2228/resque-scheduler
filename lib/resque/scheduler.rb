@@ -83,12 +83,12 @@ module Resque
       end
 
       def print_schedule
-        if rufus_scheduler
-          log! "Scheduling Info\tLast Run"
-          scheduler_jobs = rufus_scheduler.jobs
-          scheduler_jobs.each do |_k, v|
-            log! "#{v.t}\t#{v.last}\t"
-          end
+        return unless rufus_scheduler
+
+        log! "Scheduling Info\tLast Run"
+        scheduler_jobs = rufus_scheduler.jobs
+        scheduler_jobs.each do |_k, v|
+          log! "#{v.t}\t#{v.last}\t"
         end
       end
 
@@ -184,12 +184,12 @@ module Resque
       # at_time - Time to start scheduling items (default: now).
       def handle_delayed_items(at_time = nil)
         timestamp = Resque.next_delayed_timestamp(at_time)
-        if timestamp
-          procline 'Processing Delayed Items'
-          until timestamp.nil?
-            enqueue_delayed_items_for_timestamp(timestamp)
-            timestamp = Resque.next_delayed_timestamp(at_time)
-          end
+        return unless timestamp
+
+        procline 'Processing Delayed Items'
+        until timestamp.nil?
+          enqueue_delayed_items_for_timestamp(timestamp)
+          timestamp = Resque.next_delayed_timestamp(at_time)
         end
       end
 
@@ -307,29 +307,29 @@ module Resque
       end
 
       def update_schedule
-        if Resque.redis.scard(:schedules_changed) > 0
-          procline 'Updating schedule'
-          loop do
-            schedule_name = Resque.redis.spop(:schedules_changed)
-            break unless schedule_name
-            Resque.reload_schedule!
-            if Resque.schedule.keys.include?(schedule_name)
-              unschedule_job(schedule_name)
-              load_schedule_job(schedule_name, Resque.schedule[schedule_name])
-            else
-              unschedule_job(schedule_name)
-            end
+        return if Resque.redis.scard(:schedules_changed) <= 0
+
+        procline 'Updating schedule'
+        loop do
+          schedule_name = Resque.redis.spop(:schedules_changed)
+          break unless schedule_name
+          Resque.reload_schedule!
+          if Resque.schedule.keys.include?(schedule_name)
+            unschedule_job(schedule_name)
+            load_schedule_job(schedule_name, Resque.schedule[schedule_name])
+          else
+            unschedule_job(schedule_name)
           end
-          procline 'Schedules Loaded'
         end
+        procline 'Schedules Loaded'
       end
 
       def unschedule_job(name)
-        if scheduled_jobs[name]
-          log "Removing schedule #{name}"
-          scheduled_jobs[name].unschedule
-          @scheduled_jobs.delete(name)
-        end
+        return unless scheduled_jobs[name]
+
+        log "Removing schedule #{name}"
+        scheduled_jobs[name].unschedule
+        @scheduled_jobs.delete(name)
       end
 
       # Sleeps and returns true
@@ -428,11 +428,11 @@ module Resque
       private
 
       def enqueue_recurring(name, config)
-        if am_master
-          log! "queueing #{config['class']} (#{name})"
-          enqueue(config)
-          Resque.last_enqueued_at(name, Time.now.to_s)
-        end
+        return unless am_master
+
+        log! "queueing #{config['class']} (#{name})"
+        enqueue(config)
+        Resque.last_enqueued_at(name, Time.now.to_s)
       end
 
       def app_str
