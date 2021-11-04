@@ -9,8 +9,8 @@ context 'Multi Process' do
       omit("forking is not supported on #{RUBY_ENGINE}/#{RUBY_PLATFORM} but " \
            'this behaviour is best tested using forks')
     end
-    schedules_1 = {}
-    schedules_2 = {}
+    schedules1 = {}
+    schedules2 = {}
     schedules = []
     pids = []
 
@@ -20,14 +20,14 @@ context 'Multi Process' do
     schedule_count = 300
 
     schedule_count.times do |n|
-      schedules_1["1_job_#{n}"] = { cron: '0 1 0 0 0' }
-      schedules_2["2_job_#{n}"] = { cron: '0 1 0 0 0' }
+      schedules1["1_job_#{n}"] = { cron: '0 1 0 0 0' }
+      schedules2["2_job_#{n}"] = { cron: '0 1 0 0 0' }
     end
 
     processes.times do |n|
       pids << fork_with_marshalled_pipe_and_result do
         sleep n * 0.1
-        Resque.schedule = n.even? ? schedules_2 : schedules_1
+        Resque.schedule = n.even? ? schedules2 : schedules1
         Resque.schedule
       end
     end

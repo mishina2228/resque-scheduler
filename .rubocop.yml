@@ -6,11 +6,16 @@ AllCops:
   - '**/Rakefile'
   - resque-scheduler.gemspec
   - bin/resque-scheduler
+#  TargetRubyVersion: 2.3
 
 Documentation:
   Enabled: false
 
 Style/DoubleNegation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/NumericPredicate:
   Enabled: false
 Metrics/PerceivedComplexity:
   Enabled: false
