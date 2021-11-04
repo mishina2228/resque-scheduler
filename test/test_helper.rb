@@ -141,9 +141,7 @@ def nullify_logger
 end
 
 def devnull_logfile
-  @devnull_logfile ||= (
-    RUBY_PLATFORM =~ /mingw|windows/i ? 'nul' : '/dev/null'
-  )
+  @devnull_logfile ||= (RUBY_PLATFORM =~ /mingw|windows/i ? 'nul' : '/dev/null')
 end
 
 def restore_devnull_logfile

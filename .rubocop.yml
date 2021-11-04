@@ -17,6 +17,8 @@ Style/FrozenStringLiteralComment:
   Enabled: false
 Style/NumericPredicate:
   Enabled: false
+Metrics/BlockLength:
+  Enabled: false
 Metrics/PerceivedComplexity:
   Enabled: false
 Metrics/ClassLength:

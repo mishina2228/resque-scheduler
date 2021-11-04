@@ -38,15 +38,15 @@ class FixSchedulesJob
       users_unscheduled << user if schedule.nil?
     end
 
-    unless users_unscheduled.empty?
-      users_unscheduled.each do |user|
-        name = "send_email_#{user.id}"
-        config = {}
-        config[:class] = 'SendEmailJob'
-        config[:args] = user.id
-        config[:every] = '1d'
-        Resque.set_schedule(name, config)
-      end
+    return if users_unscheduled.empty?
+
+    users_unscheduled.each do |user|
+      name = "send_email_#{user.id}"
+      config = {}
+      config[:class] = 'SendEmailJob'
+      config[:args] = user.id
+      config[:every] = '1d'
+      Resque.set_schedule(name, config)
     end
   end
 end
