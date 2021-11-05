@@ -314,11 +314,9 @@ module Resque
           schedule_name = Resque.redis.spop(:schedules_changed)
           break unless schedule_name
           Resque.reload_schedule!
+          unschedule_job(schedule_name)
           if Resque.schedule.keys.include?(schedule_name)
-            unschedule_job(schedule_name)
             load_schedule_job(schedule_name, Resque.schedule[schedule_name])
-          else
-            unschedule_job(schedule_name)
           end
         end
         procline 'Schedules Loaded'
@@ -351,14 +349,13 @@ module Resque
           loop do
             elapsed_sleep = (Time.now - start)
             remaining_sleep = poll_sleep_amount - elapsed_sleep
-            @do_break = false
-            if remaining_sleep <= 0
-              @do_break = true
-            else
-              @do_break = handle_signals_with_operation do
-                sleep(remaining_sleep)
-              end
-            end
+            @do_break = if remaining_sleep <= 0
+                          true
+                        else
+                          handle_signals_with_operation do
+                            sleep(remaining_sleep)
+                          end
+                        end
             break if @do_break
           end
         else

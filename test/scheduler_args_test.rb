@@ -129,7 +129,7 @@ context 'scheduling jobs with arguments' do
 
   test "calls the worker without arguments when 'args' is missing " \
        'from the config' do
-    Resque::Scheduler.enqueue_from_config(YAML.load(<<-YAML))
+    Resque::Scheduler.enqueue_from_config(YAML.safe_load(<<-YAML))
       class: SomeIvarJob
     YAML
     SomeIvarJob.expects(:perform).once.with
@@ -138,7 +138,7 @@ context 'scheduling jobs with arguments' do
 
   test "calls the worker without arguments when 'args' is blank " \
        'in the config' do
-    Resque::Scheduler.enqueue_from_config(YAML.load(<<-YAML))
+    Resque::Scheduler.enqueue_from_config(YAML.safe_load(<<-YAML))
       class: SomeIvarJob
       args:
     YAML
@@ -147,7 +147,7 @@ context 'scheduling jobs with arguments' do
   end
 
   test 'calls the worker with a string when the config lists a string' do
-    Resque::Scheduler.enqueue_from_config(YAML.load(<<-YAML))
+    Resque::Scheduler.enqueue_from_config(YAML.safe_load(<<-YAML))
       class: SomeIvarJob
       args: string
     YAML
@@ -156,7 +156,7 @@ context 'scheduling jobs with arguments' do
   end
 
   test 'calls the worker with a Fixnum when the config lists an integer' do
-    Resque::Scheduler.enqueue_from_config(YAML.load(<<-YAML))
+    Resque::Scheduler.enqueue_from_config(YAML.safe_load(<<-YAML))
       class: SomeIvarJob
       args: 1
     YAML
@@ -166,7 +166,7 @@ context 'scheduling jobs with arguments' do
 
   test 'calls the worker with multiple arguments when the config ' \
        'lists an array' do
-    Resque::Scheduler.enqueue_from_config(YAML.load(<<-YAML))
+    Resque::Scheduler.enqueue_from_config(YAML.safe_load(<<-YAML))
       class: SomeIvarJob
       args:
         - 1
@@ -178,7 +178,7 @@ context 'scheduling jobs with arguments' do
 
   test 'calls the worker with an array when the config lists ' \
        'a nested array' do
-    Resque::Scheduler.enqueue_from_config(YAML.load(<<-YAML))
+    Resque::Scheduler.enqueue_from_config(YAML.safe_load(<<-YAML))
       class: SomeIvarJob
       args:
         - - 1
@@ -189,7 +189,7 @@ context 'scheduling jobs with arguments' do
   end
 
   test 'calls the worker with a hash when the config lists a hash' do
-    Resque::Scheduler.enqueue_from_config(YAML.load(<<-YAML))
+    Resque::Scheduler.enqueue_from_config(YAML.safe_load(<<-YAML))
       class: SomeIvarJob
       args:
         key: value
@@ -200,7 +200,7 @@ context 'scheduling jobs with arguments' do
 
   test 'calls the worker with a nested hash when the config lists ' \
        'a nested hash' do
-    Resque::Scheduler.enqueue_from_config(YAML.load(<<-YAML))
+    Resque::Scheduler.enqueue_from_config(YAML.safe_load(<<-YAML))
       class: SomeIvarJob
       args:
         first_key:

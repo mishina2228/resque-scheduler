@@ -14,6 +14,12 @@ Bundler/DuplicatedGem:
 Documentation:
   Enabled: false
 
+Security/MarshalLoad:
+  Exclude:
+    - 'test/multi_process_test.rb'
+Security/YAMLLoad:
+  Exclude:
+    - 'examples/config/initializers/resque-web.rb'
 Style/DoubleNegation:
   Enabled: false
 Style/FrozenStringLiteralComment:
