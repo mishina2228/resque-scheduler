@@ -101,7 +101,7 @@ module Resque
 
       # Returns an array of delayed items for the given timestamp
       def delayed_timestamp_peek(timestamp, start, count)
-        if 1 == count
+        if count == 1
           r = list_range "delayed:#{timestamp.to_i}", start, count
           r.nil? ? [] : [r]
         else
@@ -196,11 +196,11 @@ module Resque
           klass = Util.constantize(decoded_job['class'])
           queue = decoded_job['queue']
 
-          if queue
-            jobs_queued = enqueue_delayed_with_queue(klass, queue, *decoded_job['args'])
-          else
-            jobs_queued = enqueue_delayed(klass, *decoded_job['args'])
-          end
+          jobs_queued = if queue
+                          enqueue_delayed_with_queue(klass, queue, *decoded_job['args'])
+                        else
+                          enqueue_delayed(klass, *decoded_job['args'])
+                        end
 
           jobs_queued + sum
         end

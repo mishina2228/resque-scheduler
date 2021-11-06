@@ -203,7 +203,7 @@ context 'POST /schedule/requeue' do
       %(<input type="hidden" name="job_name" value="#{job_name}">)
     )
 
-    Resque.schedule[job_name]['parameters'].each do |_param_name, param_config|
+    Resque.schedule[job_name]['parameters'].each_value do |param_config|
       assert last_response.body.include?(
         '<span style="border-bottom:1px dotted;" ' <<
         %[title="#{param_config['description']}">(?)</span>]

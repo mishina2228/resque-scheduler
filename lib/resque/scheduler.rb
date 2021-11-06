@@ -76,7 +76,6 @@ module Resque
             end
             poll_sleep
           end
-
         rescue Interrupt
           log 'Exiting'
         end
@@ -87,7 +86,7 @@ module Resque
 
         log! "Scheduling Info\tLast Run"
         scheduler_jobs = rufus_scheduler.jobs
-        scheduler_jobs.each do |_k, v|
+        scheduler_jobs.each_value do |v|
           log! "#{v.t}\t#{v.last}\t"
         end
       end

@@ -1,11 +1,6 @@
 inherit_from: .rubocop_todo.yml
 
-AllCops:
-  Include:
-  - Gemfile
-  - '**/Rakefile'
-  - resque-scheduler.gemspec
-  - bin/resque-scheduler
+#AllCops:
 #  TargetRubyVersion: 2.3
 
 Bundler/DuplicatedGem:
@@ -14,21 +9,36 @@ Bundler/DuplicatedGem:
 Documentation:
   Enabled: false
 
-Security/MarshalLoad:
+Lint/UnusedBlockArgument:
   Exclude:
-    - 'test/multi_process_test.rb'
-Security/YAMLLoad:
-  Exclude:
-    - 'examples/config/initializers/resque-web.rb'
-Style/DoubleNegation:
-  Enabled: false
-Style/FrozenStringLiteralComment:
-  Enabled: false
-Style/NumericPredicate:
-  Enabled: false
+    - 'examples/dynamic-scheduling/lib/tasks/resque.rake'
+
 Metrics/BlockLength:
   Enabled: false
 Metrics/PerceivedComplexity:
   Enabled: false
 Metrics/ClassLength:
   Max: 110
+
+Naming/HeredocDelimiterNaming:
+  Enabled: false
+
+Security/MarshalLoad:
+  Exclude:
+    - 'test/multi_process_test.rb'
+Security/YAMLLoad:
+  Exclude:
+    - 'examples/config/initializers/resque-web.rb'
+
+Style/DoubleNegation:
+  Enabled: false
+Style/FrozenStringLiteralComment:
+  Enabled: false
+Style/NumericLiterals:
+  Enabled: false
+Style/NumericPredicate:
+  Enabled: false
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%w': '()'
+    '%W': '()'
