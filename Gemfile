@@ -15,7 +15,7 @@ else
   gem 'rufus-scheduler', rufus_scheduler_version
 end
 
-case redis_version = ENV.fetch('REDIS_VERSION', '4.8.0')
+case redis_version = ENV.fetch('REDIS_VERSION', '~> 5.0.4')
 when 'master'
   gem 'redis', git: 'https://github.com/redis/redis-rb'
 else

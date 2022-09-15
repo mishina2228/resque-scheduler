@@ -17,7 +17,6 @@ jobs:
       fail-fast: false
       matrix:
         redis-version:
-          - "master"
           - "~> 5.0.4"
           - "~> 4.8.0"
         ruby-version:
@@ -50,6 +49,13 @@ jobs:
           - ruby-version: 2.5
             resque-version: master
             rufus-scheduler: 3.2
+
+          - ruby-version: 2.3
+            redis-version: "~> 4.8.0"
+          - ruby-version: 2.3
+            redis-version: "~> 5.0.4"
+          - ruby-version: 2.4
+            redis-version: "~> 5.0.4"
     env:
       REDIS_VERSION: "${{ matrix.redis-version }}"
       RESQUE: "${{ matrix.resque-version }}"
