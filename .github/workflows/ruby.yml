@@ -17,16 +17,9 @@ jobs:
       fail-fast: false
       matrix:
         redis-version:
-          - "4.0"
-          - 4.1
-          - 4.2
-          - 4.3
-          - 4.4
-          - 4.5
-          - 4.6
-          - 4.7
-          - 4.8
-          - latest
+          - "master"
+          - "~> 5.0.4"
+          - "~> 4.8.0"
         ruby-version:
           - 2.3
           - 2.4
@@ -69,6 +62,5 @@ jobs:
         with:
           ruby-version: "${{ matrix.ruby-version }}"
           bundler-cache: true
-      - run: sudo apt-get install redis-server
       - run: bundle exec rake
       - run: bin/bundle_console_test.sh
