@@ -574,7 +574,7 @@ context 'DelayedQueue' do
   test 'remove_delayed_selection ignores last_enqueued_at redis key' do
     t = Time.now + 120
     Resque.enqueue_at(t, SomeIvarJob)
-    Resque.last_enqueued_at(SomeIvarJob.to_s, t)
+    Resque.last_enqueued_at(SomeIvarJob.to_s, t.to_s)
 
     assert_equal(0, Resque.remove_delayed_selection { |a| a.first == 'bar' })
     assert_equal(t.to_s, Resque.get_last_enqueued_at(SomeIvarJob.to_s))
@@ -716,7 +716,7 @@ context 'DelayedQueue' do
   test 'enqueue_delayed_selection ignores last_enqueued_at redis key' do
     t = Time.now + 120
     Resque.enqueue_at(t, SomeIvarJob)
-    Resque.last_enqueued_at(SomeIvarJob.to_s, t)
+    Resque.last_enqueued_at(SomeIvarJob.to_s, t.to_s)
 
     assert_equal(0, Resque.enqueue_delayed_selection { |a| a.first == 'bar' })
     assert_equal(t.to_s, Resque.get_last_enqueued_at(SomeIvarJob.to_s))
