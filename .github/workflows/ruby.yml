@@ -34,7 +34,7 @@ jobs:
           - "3.5"
           - "3.6"
         redis-version:
-          - 4.5
+          - 4.4
           - 4.8
           - latest
         exclude:
@@ -65,7 +65,6 @@ jobs:
             redis-version: 4.8
           - resque-version: "~> 1.27"
             redis-version: latest
-
     env:
       REDIS_VERSION: "${{ matrix.redis-version }}"
       RESQUE: "${{ matrix.resque-version }}"
