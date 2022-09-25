@@ -33,10 +33,27 @@ jobs:
           - "3.4"
           - "3.5"
           - "3.6"
-        redis-version:
-          - 4.5
-          - 4.8
-          - latest
+        include:
+          - ruby-version: 2.5
+            resque-version: master
+            rufus-scheduler: 3.6
+            redis-version: latest
+          - ruby-version: 2.6
+            resque-version: master
+            rufus-scheduler: 3.6
+            redis-version: latest
+          - ruby-version: 2.7
+            resque-version: master
+            rufus-scheduler: 3.6
+            redis-version: latest
+          - ruby-version: "3.0"
+            resque-version: master
+            rufus-scheduler: 3.6
+            redis-version: latest
+          - ruby-version: 3.1
+            resque-version: master
+            rufus-scheduler: 3.6
+            redis-version: latest
         exclude:
           - ruby-version: head
             rufus-scheduler: 3.2
@@ -53,19 +70,6 @@ jobs:
           - ruby-version: 2.5
             resque-version: master
             rufus-scheduler: 3.2
-
-          - ruby-version: 2.3
-            redis-version: 4.8
-          - ruby-version: 2.3
-            redis-version: latest
-          - ruby-version: 2.4
-            redis-version: latest
-
-          - resque-version: "~> 1.27"
-            redis-version: 4.8
-          - resque-version: "~> 1.27"
-            redis-version: latest
-
     env:
       REDIS_VERSION: "${{ matrix.redis-version }}"
       RESQUE: "${{ matrix.resque-version }}"
